@@ -9,15 +9,31 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const port = 3000;
 
-//jwt
+function verify(token){
+    return jwt.verify(token,process.env.secret,(err)=>{
+        if(err) console.log(err);
+    });
+}
+
+function signer(data){
+    return jwt.sign(data,process.env.secret,{"expiresIn":"1h"});
+}
+
+//jwt validate
 function validate(req,res,next){
-    next();
+    let temp = req.headers.authorization.split(' ');
+    let token = temp[1];
+    if(!token) {
+        res.status(400);
+    }
+    if(verify(token)){
+        next();
+    }
 }
 
 
-//middlewares
+// middlewares
 app.use("/api/admin",admins);
 app.use("/api/customers",users);
 app.use("/api/bookings",bookings);
@@ -37,7 +53,7 @@ app.post('/api/signup',(req,res)=>{
         password:body.pass,
         email:body.email
     }
-    let token = jwt.sign(user,process.env.secret,{"expiresIn":"1h"});
+    let token = signer(user);
     fs.readFile('temp.json','utf-8',(err,data)=>{
         data = JSON.parse(data);
         data.push(user);
@@ -55,14 +71,17 @@ app.post('/api/login',validate,(req,res)=>{
         data = JSON.parse(data);
         let exists = data.find((u)=>(u.username===body.user && u.password===body.pass));
         if(exists){
-            res.send("user success");
+            let token = signer(body);
+            res.send(token);
         }
         else{
-            res.send(300);
+            res.status(413).send("User not found");
         }
     });
 });
 
-app.listen(port,()=>{
+app.listen(process.env.port,()=>{
     console.log("listening");
 });
+
+export default validate;
