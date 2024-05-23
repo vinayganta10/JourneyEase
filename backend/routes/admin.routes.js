@@ -1,5 +1,5 @@
 import express from 'express';
-import cars from '../Model/model.cars.js';
+import cars from '../Model/model.cars.js'
 import flights from '../Model/model.flights.js';
 import hotels from '../Model/model.hotels.js';
 import validate from '../index.js';
@@ -8,7 +8,7 @@ const admins = express.Router()
 
 admins.use(express.json());
 
-admins.post('/flights',validate,async (req,res)=>{
+admins.post('/flights',async (req,res)=>{
     let body = req.body;
     let newFlight = new flights(body);
     await newFlight.save().then(()=>console.log("saved successfully")).catch((err)=>{
