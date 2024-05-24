@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-
-mongoose.connect("mongodb://localhost:27017/journeyEase");
-
 let schema = new mongoose.Schema({
     "carId":String,
     "make":String,

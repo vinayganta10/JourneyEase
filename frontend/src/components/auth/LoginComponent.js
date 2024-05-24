@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function LoginComponent(){
     const navigate = useNavigate();
     function handleLogin(){
-        navigate('/dashboard');
+        navigate('/');
     }
     function handleSignup(){
         navigate('/signup');
@@ -16,7 +16,7 @@ function LoginComponent(){
         <form action="#">
             <div className="form-control">
                 <input type="text" required/>
-                <label>email or Username</label>
+                <label>email or username</label>
             </div>
             <div className="form-control">
                 <input type="password" required/>
@@ -31,7 +31,7 @@ function LoginComponent(){
                 <a href="#">Need help?</a>
             </div>
         </form>
-        <p>Do not have an account?<button onClick={()=>handleSignup()} type="button">Sign up</button></p>
+        <p>Do not have an account?<button onClick={()=>handleSignup()}>Sign up</button></p>
     </div>
     );
 }

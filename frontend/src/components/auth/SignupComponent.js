@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function SignupComponent() {
     const navigateSignup = useNavigate();
     function handleSignUp(){
-        navigateSignup('/dashboard');
+        navigateSignup('/');
     }
     return (
         <div class="form-wrapper">

@@ -3,11 +3,15 @@ import admins from './routes/admin.routes.js';
 import users from './routes/customers.routes.js';
 import bookings from './routes/bookings.routes.js';
 import listings from './routes/travelListings.routes.js';
-import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import user from './Model/model.users.js';
+import mongoose from "mongoose";
 dotenv.config();
+
+mongoose.connect("mongodb://localhost:27017/journeyEase").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
+
 
 const app = express();
 
@@ -21,68 +25,30 @@ app.use("/api/customers",users);
 app.use("/api/bookings",bookings);
 app.use('/api',listings);
 
-
-function verify(token){
-    return jwt.verify(token,process.env.secret,(err)=>{
-        if(err) console.log(err);
-    });
-}
-
 function signer(data){
     return jwt.sign(data,process.env.secret,{"expiresIn":"1h"});
 }
 
 //jwt validate
-function validate(req,res,next){
-    let temp = req.headers.authorization.split(' ');
-    let token = temp[1];
-    if(!token) {
-        res.status(400);
-    }
-    if(verify(token)){
-        next();
-    }
-}
-
-
-
-
 app.get("/",(req,res)=>{
     res.send("Welcome to travelling booking app");
 })
 
-app.post('/api/signup',(req,res)=>{
+app.post('/api/signup',async (req,res)=>{
     let body = req.body;
-    let user = {
-        username:body.user,
-        password:body.pass,
-        email:body.email
-    }
-    let token = signer(user);
-    fs.readFile('temp.json','utf-8',(err,data)=>{
-        data = JSON.parse(data);
-        data.push(user);
-        fs.writeFile('temp.json',JSON.stringify(data),(err)=>{
-            console.log("written");
-        });
-        res.send(token);
-    })
-
+    let token = signer(body);
+    const newUser = new user(body);
+    await newUser.save().then(()=>{
+        console.log("saved successfully");
+    }).catch(err =>console.error(err));
+    res.send("user created successfully");
 });
 
-app.post('/api/login',validate,(req,res)=>{
+app.post('/api/login',async (req,res)=>{
     let body = req.body;
-    fs.readFile("temp.json",'utf-8',(err,data)=>{
-        data = JSON.parse(data);
-        let exists = data.find((u)=>(u.username===body.user && u.password===body.pass));
-        if(exists){
-            let token = signer(body);
-            res.send(token);
-        }
-        else{
-            res.status(413).send("User not found");
-        }
-    });
+    let exists = await user.find({username:body.user,password:body.pass});
+    let token = signer(body);
+    res.send(token);
 });
 
 app.listen(process.env.port,()=>{
