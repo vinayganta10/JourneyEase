@@ -2,7 +2,6 @@ import express from 'express';
 import cars from '../Model/model.cars.js'
 import flights from '../Model/model.flights.js';
 import hotels from '../Model/model.hotels.js';
-import validate from '../index.js';
 
 const admins = express.Router()
 

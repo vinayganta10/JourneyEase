@@ -6,9 +6,21 @@ import listings from './routes/travelListings.routes.js';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+
+// middlewares
+app.use("/api/admin",admins);
+app.use("/api/customers",users);
+app.use("/api/bookings",bookings);
+app.use('/api',listings);
+
 
 function verify(token){
     return jwt.verify(token,process.env.secret,(err)=>{
@@ -33,13 +45,6 @@ function validate(req,res,next){
 }
 
 
-// middlewares
-app.use("/api/admin",admins);
-app.use("/api/customers",users);
-app.use("/api/bookings",bookings);
-app.use('/api',listings);
-
-app.use(express.json());
 
 
 app.get("/",(req,res)=>{
@@ -84,4 +89,4 @@ app.listen(process.env.port,()=>{
     console.log("listening");
 });
 
-export default validate;
+// export default validate;
