@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import '../App.css';
 import Dashboard from './Dashboard';
 import '../styles/HomeComponent.css';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {useMyContext} from './authProvider'
 
 function HomeComponent () {
   const navigateHome = useNavigate ();
+  const navigateLogin = useNavigate();
   const [fromPlace, setFromPlace] = useState('');
   const [toPlace, setToPlace] = useState('');
   const [quantity, setQuantity] = useState('');
+  const {token} = useMyContext;
+
+
   const handleFromChange = (e) => {
     setFromPlace(e.target.value);
   };
@@ -21,16 +27,15 @@ function HomeComponent () {
     setQuantity(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can perform your search logic here, using the values of fromPlace, toPlace, and quantity
+    e.preventDefault();   
     console.log(`Searching from ${fromPlace} to ${toPlace} with quantity ${quantity}`);
   };
-  const [loggedIn, setLoggedIn] = useState (true);
   function clickHome () {
     navigateHome ('/home');
   }
-  function clickLogin () {
-    navigateHome ('/login');
+  function clickLogin (e) {
+    e.preventDefault();
+    navigateLogin ('/login');
   }
   function clickSignup () {
     navigateHome ('/signup');
@@ -39,9 +44,11 @@ function HomeComponent () {
     <div className="App">
       <div>
         <ul>
-          <li className="main" onClick={() => clickHome ()}>Journey Ease</li>
-          <li className="auth" onClick={() => clickLogin ()}>Login</li>
-          <li className="auth" onClick={() => clickSignup ()}>Sign up</li>
+          <li className="main" onClick={clickHome}>Journey Ease</li>
+          {token===""?<>
+              <li className="auth" onClick={clickLogin}>Login</li>
+              <li className="auth" onClick={clickSignup}>Sign up</li>
+            </>:<><li className='auth'>Logout</li></>}
         </ul>
       </div>
       <form className="search-form" onSubmit={handleSubmit}>

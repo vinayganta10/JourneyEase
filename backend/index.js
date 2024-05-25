@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import user from './Model/model.users.js';
 import mongoose from "mongoose";
+import { LocalStorage } from 'node-localstorage';
 dotenv.config();
 
 mongoose.connect("mongodb://localhost:27017/journeyEase").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
@@ -25,11 +26,10 @@ app.use("/api/customers",users);
 app.use("/api/bookings",bookings);
 app.use('/api',listings);
 
-function signer(data){
+async function signer(data){
     return jwt.sign(data,process.env.secret,{"expiresIn":"1h"});
 }
 
-//jwt validate
 app.get("/",(req,res)=>{
     res.send("Welcome to travelling booking app");
 })
@@ -41,14 +41,19 @@ app.post('/api/signup',async (req,res)=>{
     await newUser.save().then(()=>{
         console.log("saved successfully");
     }).catch(err =>console.error(err));
-    res.send("user created successfully");
+    res.send(token);
 });
 
 app.post('/api/login',async (req,res)=>{
     let body = req.body;
-    let exists = await user.find({username:body.user,password:body.pass});
-    let token = signer(body);
-    res.send(token);
+    let exists = await user.find({username:body.username,password:body.password});
+    if(exists.length===0) {
+        res.status(300).send("<h1>User not found</h1>");
+    }
+    else{
+        let token = await signer(body);
+        res.send(token);
+    }
 });
 
 app.listen(process.env.port,()=>{
