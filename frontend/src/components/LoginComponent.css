@@ -1,7 +1,15 @@
+.App {
+    background-image: url('C:\Users\DELL\OneDrive\Documents\vs code\JourneyEase\frontend\public\flat-lay-hat-notebook-arrangement.jpg');
+    background-size: cover;
+    text-align: center;
+    min-height:100vh;
+    margin:0;
+    padding:0;
+  }
 .form-wrapper {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 57%;
     border-radius: 4px;
     padding: 70px;
     width: 450px;

@@ -24,7 +24,7 @@ function validate(req,res,next){
 
 listings.get("/flights",async(req,res)=>{
     const data = await flights.find({});
-    res.send(JSON.stringify(data));
+    res.send(data);
 });
 
 listings.get("/hotels",async(req,res)=>{
@@ -34,7 +34,7 @@ listings.get("/hotels",async(req,res)=>{
 
 listings.get('/cars',async(req,res)=>{
     const data = await cars.find({});
-    res.send(JSON.stringify(data));
+    res.send(data);
 });
 
 

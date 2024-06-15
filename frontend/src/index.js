@@ -7,6 +7,7 @@ import HomeComponent from './components/HomeComponent';
 import LoginComponent from './components/auth/LoginComponent';
 import SignupComponent from './components/auth/SignupComponent';
 import Dashboard from './components/Dashboard';
+import ProfileComponent from './components/ProfileComponent.js';
 import {MyProvider} from './components/authProvider.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,7 +19,7 @@ root.render(
         <Route path='/Home' element={<HomeComponent/>}/>
         <Route path='/Login' element={<LoginComponent/>}/>
         <Route path='/signup' element={<SignupComponent/>}/>
-        <Route path='profile/:user' element={<profileComponent/>}/>
+        <Route path='profile/:user' element={<ProfileComponent/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
         <Route path='*' element={<h1>404 Not Found</h1>}/>
       </Routes>

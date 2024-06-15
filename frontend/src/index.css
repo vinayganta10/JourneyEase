@@ -12,3 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root{
+  background-image: url('C:\Users\DELL\OneDrive\Documents\vs code\JourneyEase\frontend\public\flat-lay-hat-notebook-arrangement.jpg');
+  background-size: cover;
+}

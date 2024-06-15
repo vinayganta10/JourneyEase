@@ -8,10 +8,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import user from './Model/model.users.js';
 import mongoose from "mongoose";
-import { LocalStorage } from 'node-localstorage';
 dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/journeyEase").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
+mongoose.connect("mongodb://127.0.0.1/journeyEase").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
 
 
 const app = express();
@@ -36,7 +35,7 @@ app.get("/",(req,res)=>{
 
 app.post('/api/signup',async (req,res)=>{
     let body = req.body;
-    let token = signer(body);
+    let token = await signer(body);
     const newUser = new user(body);
     await newUser.save().then(()=>{
         console.log("saved successfully");
