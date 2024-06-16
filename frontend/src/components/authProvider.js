@@ -1,4 +1,5 @@
 import React, {useContext, createContext, useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Creating a context
 const MyContext = createContext ();
@@ -27,7 +28,7 @@ const MyProvider = ({children}) => {
 
 // Custom hook
 const useMyContext = () => {
-  return useContext (MyContext);
+  return useContext(MyContext);
 };
 
 // Exporting

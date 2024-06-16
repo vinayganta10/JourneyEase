@@ -11,18 +11,6 @@ function HomeComponent() {
   const [quantity, setQuantity] = useState('');
   const { token, user, handleLogout } = useMyContext();
 
-  const handleFromChange = (e) => {
-    setFromPlace(e.target.value);
-  };
-
-  const handleToChange = (e) => {
-    setToPlace(e.target.value);
-  };
-
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`Searching from ${fromPlace} to ${toPlace} with quantity ${quantity}`);
@@ -50,6 +38,12 @@ function HomeComponent() {
     handleLogout();
     navigate('/login');
     window.location.reload();
+  };
+
+  const handleData = (e) => {
+    e.preventDefault();
+    const type = e.target.value;
+    navigate(`/dashboard/${type}`);
   };
 
   return (
@@ -80,39 +74,14 @@ function HomeComponent() {
       </div>
       <form className="search-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="fromPlace">From:</label>
-          <input
-            type="text"
-            id="fromPlace"
-            value={fromPlace}
-            onChange={handleFromChange}
-            placeholder="Enter origin"
-            required
-          />
+          <button value="cars" onClick={handleData}>Cars</button>
         </div>
         <div className="form-group">
-          <label htmlFor="toPlace">To:</label>
-          <input
-            type="text"
-            id="toPlace"
-            value={toPlace}
-            onChange={handleToChange}
-            placeholder="Enter destination"
-            required
-          />
+          <button value="flights" onClick={handleData}>Flights</button>
         </div>
         <div className="form-group">
-          <label htmlFor="quantity">Quantity:</label>
-          <input
-            type="number"
-            id="quantity"
-            value={quantity}
-            onChange={handleQuantityChange}
-            placeholder="Enter quantity"
-            required
-          />
+        <button value="hotels" onClick={handleData}>Hotels</button>
         </div>
-        <button type="submit">Search</button>
       </form>
     </div>
   );

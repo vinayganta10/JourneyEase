@@ -1,31 +1,29 @@
 import {React,useState,useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,useParams} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useMyContext } from './authProvider';
 import axios from 'axios';
 
 function Dashboard () {
+  const {type} = useParams();
   const { token, user, handleLogout } = useMyContext();
   const navigate = useNavigate ();
   const [cars, setCars] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [flights, setFlights] = useState([]);
 
-
   useEffect(() => {
     axios.get("http://localhost:4000/api/cars")
       .then((res) => setCars(res.data))
       .catch((error) => console.error('Error fetching cars:', error));
-
-    // Uncomment if you want to fetch hotels and flights data as well
-    // axios.get("http://localhost:4000/api/hotels")
-    //   .then((res) => setHotels(res.data))
-    //   .catch((error) => console.error('Error fetching hotels:', error));
-    //
-    // axios.get("http://localhost:4000/api/flights")
-    //   .then((res) => setFlights(res.data))
-    //   .catch((error) => console.error('Error fetching flights:', error));
+    axios.get("http://localhost:4000/api/hotels")
+      .then((res) => setHotels(res.data))
+      .catch((error) => console.error('Error fetching hotels:', error));
+    
+    axios.get("http://localhost:4000/api/flights")
+      .then((res) => setFlights(res.data))
+      .catch((error) => console.error('Error fetching flights:', error));
   }, []);
 
   const clickHome = () => {
@@ -49,6 +47,43 @@ function Dashboard () {
     navigate('/login');
     window.location.reload();
   };
+
+  const carsList = cars.map((car) => (
+    <Card key={car._id}>
+      <Card.Header>Cars</Card.Header>
+      <Card.Body>
+        <Card.Title>{car.make} {car.model}</Card.Title>
+        <Card.Text>Price: ${car.price}</Card.Text>
+        <Button variant="primary">book now</Button>
+      </Card.Body>
+    </Card>
+  ));
+
+  const hotelsList = hotels.map((hotel) => (
+    <Card key={hotel._id}>
+      <Card.Header>Hotels</Card.Header>
+      <Card.Body>
+        <Card.Title>{hotel.name}</Card.Title>
+        <Card.Text>{hotel.location}</Card.Text>
+        <Card.Text>Price: ${hotel.price}</Card.Text>
+        <Button variant="primary">book now</Button>
+      </Card.Body>
+    </Card>
+  ));  
+  
+  const flightsList = flights.map((flight) => (
+    <Card key={flight._id}>
+      <Card.Header>Flights</Card.Header>
+      <Card.Body>
+        <Card.Title>{flight.origin}----{flight.destination}</Card.Title>
+        <Card.Text>Price: ${flight.price}</Card.Text>
+        <Button variant="primary">book now</Button>
+      </Card.Body>
+    </Card>
+  ));  
+  
+
+
 
   return (
     <div>
@@ -76,16 +111,7 @@ function Dashboard () {
           )}
         </ul>
         <div>
-        {cars.map((car) => (
-          <Card key={car._id}>
-            <Card.Header>Cars</Card.Header>
-            <Card.Body>
-              <Card.Title>{car.make} {car.model}</Card.Title>
-              <Card.Text>Price: ${car.price}</Card.Text>
-              <Button variant="primary">book now</Button>
-            </Card.Body>
-          </Card>
-        ))}
+        {type==="cars"?carsList:(type==="hotels"?hotelsList:flightsList)}
       </div>
       </div>
     </div>
