@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useMyContext } from './authProvider';
 import axios from 'axios';
+import Toast from 'react-bootstrap/Toast';
 
 function Dashboard () {
   const {type} = useParams();
@@ -48,13 +49,29 @@ function Dashboard () {
     window.location.reload();
   };
 
+  async function book(items) 
+  {
+    let data = {userId:user,bookingId:Date.now(),items};
+    let response = await axios.post('http://localhost:4000/api/bookings/',data);
+    return (
+      <Toast>
+        <Toast.Header>
+          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+          <strong className="me-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+        </Toast.Header>
+        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+      </Toast>
+    );
+  }
+
   const carsList = cars.map((car) => (
     <Card key={car._id}>
       <Card.Header>Cars</Card.Header>
       <Card.Body>
         <Card.Title>{car.make} {car.model}</Card.Title>
         <Card.Text>Price: ${car.price}</Card.Text>
-        <Button variant="primary">book now</Button>
+        <Button variant="primary" onClick={()=>book({id:car._id,type:"car",name:car.make,model:car.model})}>book now</Button>
       </Card.Body>
     </Card>
   ));
