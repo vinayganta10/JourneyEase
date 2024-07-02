@@ -1,5 +1,5 @@
 .App {
-    background-image: url('C:\Users\CVR\Desktop\journeyease\Journeyease\frontend\public\flat-lay-hat-notebook-arrangement.jpg');
+    background-image: url('../../public/flat-lay-hat-notebook-arrangement.jpg');
     background-size: cover;
     text-align: center;
     min-height:100vh;

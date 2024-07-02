@@ -10,7 +10,7 @@ import user from './Model/model.users.js';
 import mongoose from "mongoose";
 dotenv.config();
 
-mongoose.connect("mongodb://127.0.0.1/journeyEase").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
+mongoose.connect("mongodb+srv://aggvinayganta10:It3RHJS2IKD4Lte3@cluster0.7ou0dbw.mongodb.net/").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
 
 
 const app = express();
@@ -18,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const secret = "secret";
 
 // middlewares
 app.use("/api/admin",admins);
@@ -26,7 +27,7 @@ app.use("/api/bookings",bookings);
 app.use('/api',listings);
 
 async function signer(data){
-    return jwt.sign(data,process.env.secret,{"expiresIn":"1h"});
+    return jwt.sign(data,secret,{"expiresIn":"1h"});
 }
 
 app.get("/",(req,res)=>{
@@ -55,7 +56,7 @@ app.post('/api/login',async (req,res)=>{
     }
 });
 
-app.listen(process.env.port,()=>{
+app.listen(4000,()=>{
     console.log("listening");
 });
 

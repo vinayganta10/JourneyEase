@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useMyContext } from './authProvider';
 import axios from 'axios';
-import Toast from 'react-bootstrap/Toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Dashboard () {
   const {type} = useParams();
@@ -51,18 +52,18 @@ function Dashboard () {
 
   async function book(items) 
   {
-    let data = {userId:user,bookingId:Date.now(),items};
-    let response = await axios.post('http://localhost:4000/api/bookings/',data);
-    return (
-      <Toast>
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-          <strong className="me-auto">Bootstrap</strong>
-          <small>11 mins ago</small>
-        </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-      </Toast>
-    );
+    
+    let data = { userId:user, bookingId: Date.now(), items };
+    try {
+      let response = await axios.post('http://localhost:4000/api/bookings/', data);
+      if (response.status === 200) {
+        toast.success('Booked successfully!');
+      } else {
+        toast.error('Failed to book.');
+      }
+    } catch (error) {
+      toast.error('Failed to book. Please try again.');
+    }
   }
 
   const carsList = cars.map((car) => (
@@ -129,6 +130,7 @@ function Dashboard () {
         </ul>
         <div>
         {type==="cars"?carsList:(type==="hotels"?hotelsList:flightsList)}
+        <ToastContainer />
       </div>
       </div>
     </div>
