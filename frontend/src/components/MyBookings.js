@@ -3,22 +3,35 @@ import '../App.css';
 import '../styles/HomeComponent.css';
 import { useNavigate } from 'react-router-dom';
 import { useMyContext } from './authProvider';
-import { Card, Container, Row, Col, Table, Spinner, Alert } from 'react-bootstrap';
 import { useEffect } from 'react';
 import axios from 'axios';
+import {
+  Spinner,
+  Alert,
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  DropdownButton,
+  Dropdown,
+} from 'react-bootstrap';
 
 function MyBookings() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterType, setFilterType] = useState(''); // State to store the selected filter type
 
-  const { token, user, handleLogout } = useMyContext();
+  const { user, handleLogout } = useMyContext();
+
   const clickHome = () => {
     navigate('/home');
   };
+
   const clickProfile = () => {
-    console.log(user);
     navigate(`/profile/${user}`);
   };
 
@@ -37,8 +50,8 @@ function MyBookings() {
         setBookings(response.data);
         setLoading(false);
       } catch (error) {
-        setLoading(true);
-        setError(false);
+        setLoading(false);
+        setError('Failed to fetch bookings.'); 
         console.error('There was an error fetching the bookings:', error);
       }
     };
@@ -46,8 +59,23 @@ function MyBookings() {
     fetchBookings();
   }, [user]);
 
-  if (loading) return <Spinner animation="border" />;
-  if (error) return <Alert variant="danger">{error}</Alert>;
+  useEffect(() => {
+    if (filterType === 'all') {
+      setFilteredBookings(bookings);
+    } else {
+      const filtered = bookings.filter(
+        (booking) => booking.items.type === filterType,
+      );
+      setFilteredBookings(filtered);
+    }
+  }, [bookings, filterType]);
+
+  const handleFilterChange = (type) => {
+    setFilterType(type);
+  };
+
+  if (loading) return <Spinner animation='border' />;
+  if (error) return <Alert variant='danger'>{error}</Alert>;
 
   return (
     <div className='App'>
@@ -69,26 +97,58 @@ function MyBookings() {
           </li>
         </ul>
       </div>
-      <Container>
-      <Row>
-        {bookings.map((booking) => (
-          <Col key={booking.bookingId} md={4}>
-            <Card style={{ margin: '10px' }}>
-              <Card.Header>Booking ID: {booking.bookingId}</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  {Object.entries(booking.items).map(([key, value]) => (
-                    <div key={key} style={{ marginBottom: '8px' }}>
-                      <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : value}
-                    </div>
-                  ))}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+      <div className='list'>
+        <Container>
+          <DropdownButton id='dropdown-item-button' title='Filter by Type'>
+            <Dropdown.Item
+              as='button'
+              onClick={() => handleFilterChange('all')}
+            >
+              All
+            </Dropdown.Item>
+            <Dropdown.Item
+              as='button'
+              onClick={() => handleFilterChange('car')}
+            >
+              Car
+            </Dropdown.Item>
+            <Dropdown.Item
+              as='button'
+              onClick={() => handleFilterChange('hotel')}
+            >
+              Hotel
+            </Dropdown.Item>
+            <Dropdown.Item
+              as='button'
+              onClick={() => handleFilterChange('flight')}
+            >
+              Flight
+            </Dropdown.Item>
+          </DropdownButton>
+          <Row>
+            {filteredBookings.map((booking) => (
+              <Col key={booking.bookingId} md={4}>
+                <Card style={{ margin: '10px' }}>
+                  <Card.Header>Booking ID: {booking.bookingId}</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      {Object.entries(booking.items).map(([key, value]) => (
+                        <div key={key} style={{ marginBottom: '8px' }}>
+                          <strong>{key}:</strong>{' '}
+                          {typeof value === 'object'
+                            ? JSON.stringify(value)
+                            : value}
+                        </div>
+                      ))}
+                    </Card.Text>
+                  </Card.Body>
+                  <Button>Cancel</Button>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
     </div>
   );
 }

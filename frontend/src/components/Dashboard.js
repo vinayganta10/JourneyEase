@@ -6,6 +6,7 @@ import { useMyContext } from './authProvider';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/Dashboard.css';
 
 function Dashboard() {
   const { type } = useParams();
@@ -182,6 +183,10 @@ function Dashboard() {
             </>
           )}
         </ul>
+        <div class="search-bar">
+          <input type="text" placeholder="Search destinations, offers, and more..." id="search-input"/>
+          <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        </div>
         <div>
           {type === 'cars'
             ? carsList

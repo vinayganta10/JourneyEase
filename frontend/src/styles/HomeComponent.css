@@ -1,4 +1,4 @@
-.profile{
+.profile {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,91 +9,149 @@
   background-image: url('../../public/flat-lay-hat-notebook-arrangement.jpg');
   background-size: cover;
   text-align: center;
-  min-height:100vh;
-  margin:0;
-  padding:0;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
-
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
 }
 
-li{
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+li {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 li:hover:not(.active) {
-    background-color: #111;
+  background-color: #111;
 }
 
 .active {
-    background-color: #04AA6D;
+  background-color: #04aa6d;
 }
 
-.main{
-    justify-content:center;
-    color:aliceblue;
-    font-family: 'Playfair Display', serif;
-    font-size: 50px;
+.main {
+  justify-content: center;
+  color: aliceblue;
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
 }
 
-.auth{
-    float: right;
-    font-size: 50px;
-    font-size:30px;
+.auth {
+  float: right;
+  font-size: 50px;
+  font-size: 30px;
 }
 
 .search-form {
-    max-width: 400px;
-    margin: 80px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type='text'],
-  input[type='number'] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+  max-width: 400px;
+  margin: 80px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  .prof{
-    min-height: 800px;
-  }
-  
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='text'],
+input[type='number'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.prof {
+  min-height: 800px;
+}
+
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.footer h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.footer p, .footer ul, .footer a {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 5px;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-social a {
+  font-size: 20px;
+  margin: 0 10px;
+  color: #ddd;
+}
+
+.footer-social a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+}
+
+.list{
+  margin-top:10px;
+}
