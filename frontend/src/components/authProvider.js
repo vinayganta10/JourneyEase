@@ -8,10 +8,12 @@ const MyContext = createContext ();
 const MyProvider = ({children}) => {
   const [token, setToken] = useState (null);
   const [user, setUser] = useState ('');
+  const [type,setType] = useState('');
   useEffect (
     () => {
       setToken (localStorage.getItem ('token'));
       setUser (localStorage.getItem ('user'));
+      setType(localStorage.getItem ('type'));
     },
     [token, user]
   );

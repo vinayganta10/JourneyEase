@@ -9,6 +9,7 @@ import SignupComponent from './components/auth/SignupComponent';
 import Dashboard from './components/Dashboard';
 import ProfileComponent from './components/profileComponent.js';
 import AdminComponent from './components/Admindashboard';
+import MyBookings from './components/MyBookings.js';
 import {MyProvider} from './components/authProvider.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,6 +24,7 @@ root.render(
         <Route path='profile/:user' element={<ProfileComponent/>}/>
         <Route path='/dashboard/:type' element={<Dashboard/>}/>
         <Route path='/admin' element={<AdminComponent/>}/>
+        <Route path='/mybookings' element={<MyBookings/>}/>
         <Route path='*' element={<h1>404 Not Found</h1>}/>
       </Routes>
     </Router>

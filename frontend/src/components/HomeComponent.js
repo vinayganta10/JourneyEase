@@ -40,6 +40,10 @@ function HomeComponent() {
     window.location.reload();
   };
 
+  const clickBookings = ()=>{
+    navigate('/mybookings');
+  }
+
   const handleData = (e) => {
     e.preventDefault();
     const type = e.target.value;
@@ -67,12 +71,13 @@ function HomeComponent() {
                   alt="Profile"
                 />
               </li>
-              <li className="auth">My bookings</li>
+              <li className="auth" onClick={clickBookings}>My bookings</li>
             </>
           )}
         </ul>
       </div>
       <form className="search-form" onSubmit={handleSubmit}>
+        <label>What do you want to book {user}?</label>
         <div className="form-group">
           <button value="cars" onClick={handleData}>Cars</button>
         </div>

@@ -14,8 +14,8 @@ bookings.post("/",async(req,res)=>{
 });
 
 bookings.get("/:customerId",async(req,res)=>{
-    let id = req.params.customerId;
-    let bookingData = await booking.find({userId: id});
+    let user = req.params.customerId;
+    let bookingData = await booking.find({userId: user});
     res.send(JSON.stringify(bookingData));
 });
 
