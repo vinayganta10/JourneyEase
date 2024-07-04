@@ -106,38 +106,38 @@ function HomeComponent() {
           </button>
         </div>
       </form>
-      <footer class='footer'>
-        <div class='footer-container'>
-          <div class='footer-about'>
+      <footer className='footer'>
+        <div className='footer-container'>
+          <div className='footer-about'>
             <h3>About Us</h3>
             <p>
               We provide the best travel experiences tailored just for you.
               Explore the world with us!
             </p>
           </div>
-          <div class='footer-contact'>
+          <div className='footer-contact'>
             <h3>Contact Us</h3>
             <p>Email: info@etravel.com</p>
             <p>Phone: +123 456 7890</p>
             <p>Address: 123 Travel St, Adventure City, World</p>
           </div>
-          <div class='footer-social'>
+          <div className='footer-social'>
             <h3>Follow Us</h3>
             <a href='https://facebook.com' target='_blank'>
-              <i class='fab fa-facebook-f'></i>
+              <i className='fab fa-facebook-f'></i>
             </a>
             <a href='https://twitter.com' target='_blank'>
-              <i class='fab fa-twitter'></i>
+              <i className='fab fa-twitter'></i>
             </a>
             <a href='https://instagram.com' target='_blank'>
-              <i class='fab fa-instagram'></i>
+              <i className='fab fa-instagram'></i>
             </a>
             <a href='https://linkedin.com' target='_blank'>
-              <i class='fab fa-linkedin-in'></i>
+              <i className='fab fa-linkedin-in'></i>
             </a>
           </div>
         </div>
-        <div class='footer-bottom'>
+        <div className='footer-bottom'>
           <p>&copy; 2024 eTravel. All Rights Reserved.</p>
         </div>
       </footer>

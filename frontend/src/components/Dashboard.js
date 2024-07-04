@@ -15,6 +15,7 @@ function Dashboard() {
   const [cars, setCars] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [flights, setFlights] = useState([]);
+  const [search,setSearch] = useState("");
 
   useEffect(() => {
     axios
@@ -58,6 +59,10 @@ function Dashboard() {
     window.location.reload();
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  }
+
   async function book(items) {
     let data = { userId: user, bookingId: Date.now(), items };
     try {
@@ -66,6 +71,7 @@ function Dashboard() {
         data,
       );
       if (response.status === 200) {
+        downloadTicket(data,data.items);
         toast.success('Booked successfully!');
       } else {
         toast.error('Failed to book.');
@@ -74,6 +80,18 @@ function Dashboard() {
       toast.error('Failed to book. Please try again.');
     }
   }
+
+  const downloadTicket = (ticketData) => {
+    const blob = new Blob([JSON.stringify(ticketData)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'ticket.json';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   const carsList = cars.map((car) => (
     <Card key={car._id}>

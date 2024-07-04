@@ -19,5 +19,10 @@ bookings.get("/:customerId",async(req,res)=>{
     res.send(JSON.stringify(bookingData));
 });
 
+bookings.delete("/:bookingId",async(req,res)=>{
+    let id = req.params.bookingId;
+    await booking.deleteOne({bookingId:id});
+    res.send("deleted successfully");
+});
 
 export default bookings;

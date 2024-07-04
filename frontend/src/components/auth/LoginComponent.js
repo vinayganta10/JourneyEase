@@ -3,12 +3,15 @@ import '../LoginComponent.css';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {useMyContext} from '../authProvider';
+import {Alert} from 'react-bootstrap';
 
 function LoginComponent () {
   const navigate = useNavigate ();
   const [username, setUsername] = useState ('');
   const [password, setPassword] = useState ('');
   const {token, setToken} = useMyContext ();
+  const [error, setError] = useState(null);
+
   function handleUserName (e) {
     setUsername (e.target.value);
   }
@@ -21,15 +24,26 @@ function LoginComponent () {
   async function handleLogin (e) {
     //e.preventDefault();
     let data = {username, password};
-    const response = await axios.post ('http://localhost:4000/api/login', data);
-    localStorage.setItem ('token', token);
-    localStorage.setItem ('user', username);
-    navigate ('/home');
-    window.location.reload();
+    try{
+      const response = await axios.post ('http://localhost:4000/api/login', data)
+      console.log(response.token);
+      localStorage.setItem ('token', response.token);
+      localStorage.setItem ('user', username);
+      navigate ('/home');
+      window.location.reload();
+    }catch(error){
+      setError('User authentication failed');
+      console.log("login failed",error);
+      
+    }
   }
+  
   function handleSignup () {
     navigate ('/signup');
   }
+
+  if (error) return <Alert variant='danger'>{error}</Alert>;
+
   return (
     <div className="App">
       <div>

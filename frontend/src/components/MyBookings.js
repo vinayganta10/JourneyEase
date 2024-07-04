@@ -23,7 +23,7 @@ function MyBookings() {
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterType, setFilterType] = useState(''); // State to store the selected filter type
+  const [filterType, setFilterType] = useState('car');
 
   const { user, handleLogout } = useMyContext();
 
@@ -55,9 +55,8 @@ function MyBookings() {
         console.error('There was an error fetching the bookings:', error);
       }
     };
-
-    fetchBookings();
-  }, [user]);
+    if(user) fetchBookings();
+  },[user]);
 
   useEffect(() => {
     if (filterType === 'all') {
@@ -73,6 +72,11 @@ function MyBookings() {
   const handleFilterChange = (type) => {
     setFilterType(type);
   };
+
+  const handleCancel = async(id)=>{
+    let res = axios.delete(`http://localhost:4000/api/bookings/${id}`);
+    window.location.reload();
+  }
 
   if (loading) return <Spinner animation='border' />;
   if (error) return <Alert variant='danger'>{error}</Alert>;
@@ -142,7 +146,7 @@ function MyBookings() {
                       ))}
                     </Card.Text>
                   </Card.Body>
-                  <Button>Cancel</Button>
+                  <Button onClick={()=>handleCancel(booking.bookingId)}>Cancel</Button>
                 </Card>
               </Col>
             ))}
