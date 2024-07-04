@@ -1,15 +1,46 @@
 import express from 'express';
 import booking from '../Model/model.bookings.js';
+import nodemailer from 'nodemailer';
 
 const bookings = express.Router();
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'aggvinayganta10@gmail.com',
+      pass: 'ykoyhgbyzrquzlws',
+    },
+  });
 
 bookings.post("/",async(req,res)=>{
     // const bToken = req.header.Authorization;
     // const token = bToken[1];
     // const flag = verify(token);
+    const { userId, bookingId, items } = req.body;
     let newBooking = new booking(req.body);
+    const bookingDetails = {
+        userId,
+        bookingId,
+        items,
+        createdAt: new Date(),
+      };
+    
+    const mailOptions = {
+        from: 'aggvinayganta10@gmail.com',
+        to: 'vikasmamidipally23@gmail.com',
+        subject: 'Your Booking Confirmation',
+        text: `Thank you for your booking.Here are the details:\n\n${JSON.stringify(bookingDetails, null, 2)}`,
+        attachments: [
+            {
+              filename: 'ticket.json',
+              content: JSON.stringify(bookingDetails),
+              contentType: 'application/json',
+            },
+          ],
+      };
+    
     await newBooking.save().then(()=>{console.log("Booking done")}).catch((err)=>console.log(err));
+    await transporter.sendMail(mailOptions);
     res.send("new booking created");
 });
 
