@@ -60,19 +60,19 @@ admins.put('/hotels/:id',async (req,res)=>{
 
 admins.delete('/flights/:id',async(req,res)=>{
     let id = req.params.id;
-    await flights.deleteOne({flightId:id});
+    await flights.deleteOne({id:id});
     res.send("deleted");
 });
 
 admins.delete('/cars/:id',async (req,res)=>{
     let id = req.params.id;
-    await cars.deleteOne({carId:id});
+    await cars.deleteOne({id:id});
     res.send("deleted");
 });
 
 admins.delete('/hotels/:id',async (req,res)=>{
     let id = req.params.id;
-    await hotels.deleteOne({hotelId:id});
+    await hotels.deleteOne({id:id});
     res.send("deleted");
 });
 

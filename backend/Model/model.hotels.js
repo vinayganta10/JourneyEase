@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 let hotelSchema = new mongoose.Schema({
-    "hotelId":String,
+    "id":String,
     "name":String,
     "location":String,
     "price":Number

@@ -4,6 +4,7 @@ import { useMyContext } from './authProvider';
 import '../styles/HomeComponent.css';
 import { Card, Button, Form, Modal } from 'react-bootstrap';
 
+
 function ProfileComponent() {
   const navigate = useNavigate();
   let { token, user, handleLogout } = useMyContext();

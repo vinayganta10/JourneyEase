@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const schema = mongoose.Schema({
-    "bookingId":String,
+    "id":String,
     "userId":String,
     "items":Object
 });

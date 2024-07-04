@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import '../App.css';
 import '../styles/HomeComponent.css';
 import { useNavigate } from 'react-router-dom';
-import { useMyContext } from './authProvider';
+import { useMyContext } from './authProvider'
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';;
+import { ReactTyped } from "react-typed";
 
 function HomeComponent() {
   const navigate = useNavigate();
@@ -88,24 +91,42 @@ function HomeComponent() {
           )}
         </ul>
       </div>
-      <form className='search-form' onSubmit={handleSubmit}>
-        <label>What do you want to book {user}?</label>
-        <div className='form-group'>
-          <button value='cars' onClick={handleData}>
-            Cars
-          </button>
-        </div>
-        <div className='form-group'>
-          <button value='flights' onClick={handleData}>
-            Flights
-          </button>
-        </div>
-        <div className='form-group'>
-          <button value='hotels' onClick={handleData}>
-            Hotels
-          </button>
-        </div>
-      </form>
+      <div className='intro'>
+        <h1>
+          W{""}
+          <ReactTyped strings={["elcome To journey Ease"]} typeSpeed={60} />
+        </h1>
+      </div>
+      <div className='home'>
+        <form className='search-form' onSubmit={handleSubmit}>
+          <label>What do you want to book {user}?</label>
+          <div className='form-group'>
+            <button value='cars' onClick={handleData}>
+              Cars
+            </button>
+          </div>
+          <div className='form-group'>
+            <button value='flights' onClick={handleData}>
+              Flights
+            </button>
+          </div>
+          <div className='form-group'>
+            <button value='hotels' onClick={handleData}>
+              Hotels
+            </button>
+          </div>
+        </form>
+        <Card className = 'para' style={{ width: '30rem' }}>
+          <Card.Body>
+            <Card.Text>
+              Journey Ease is an all-encompassing e-travel booking platform designed to cater to the diverse needs of modern travelers. Whether you are planning a family vacation, a business trip, or a solo adventure, Journey Ease provides a seamless and comprehensive solution for booking cars, hotels, and flights.
+            </Card.Text>
+            <Button variant="primary">Book something</Button>
+          </Card.Body>
+        </Card>
+      </div>
+
+
       <footer className='footer'>
         <div className='footer-container'>
           <div className='footer-about'>

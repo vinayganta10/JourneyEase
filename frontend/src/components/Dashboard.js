@@ -16,6 +16,7 @@ function Dashboard() {
   const [hotels, setHotels] = useState([]);
   const [flights, setFlights] = useState([]);
   const [search,setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     axios
@@ -63,6 +64,12 @@ function Dashboard() {
     setSearch(e.target.value);
   }
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setSearchQuery(search);
+    window.location.reload();
+  };
+
   async function book(items) {
     let data = { userId: user, bookingId: Date.now(), items };
     try {
@@ -70,11 +77,11 @@ function Dashboard() {
         'http://localhost:4000/api/bookings/',
         data,
       );
-      if (response.status === 200) {
+      if (response.status === 200 && user!=null) {
         downloadTicket(data,data.items);
         toast.success('Booked successfully!');
       } else {
-        toast.error('Failed to book.');
+        toast.error('Please login');
       }
     } catch (error) {
       toast.error('Failed to book. Please try again.');
@@ -93,7 +100,28 @@ function Dashboard() {
     window.URL.revokeObjectURL(url);
   };
 
-  const carsList = cars.map((car) => (
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000000);
+
+  const handleMinPriceChange = (e) => setMinPrice(e.target.value);
+  const handleMaxPriceChange = (e) => setMaxPrice(e.target.value);
+
+
+  const filteredCars = cars.filter(car => 
+    (car.make.toLowerCase().includes(search.toLowerCase()) || search === "") &&
+    car.price >= minPrice && car.price <= maxPrice
+  );
+
+  const filteredHotels = hotels.filter(hotel => 
+    (hotel.name.toLowerCase().includes(search.toLowerCase()) || search === "") &&
+    hotel.price >= minPrice && hotel.price <= maxPrice
+  );
+
+  const filteredFlights = flights.filter(flight => 
+    flight.price >= minPrice && flight.price <= maxPrice
+  );
+
+  const carsList = filteredCars.map((car) => (
     <Card key={car._id}>
       <Card.Header>Cars</Card.Header>
       <Card.Body>
@@ -113,7 +141,7 @@ function Dashboard() {
     </Card>
   ));
 
-  const hotelsList = hotels.map((hotel) => (
+  const hotelsList = filteredHotels.map((hotel) => (
     <Card key={hotel._id}>
       <Card.Header>Hotels</Card.Header>
       <Card.Body>
@@ -201,9 +229,31 @@ function Dashboard() {
             </>
           )}
         </ul>
-        <div class="search-bar">
-          <input type="text" placeholder="Search destinations, offers, and more..." id="search-input"/>
-          <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        <div className="search-bar">
+          <input 
+            type="text" 
+            placeholder="Search cars or hotels..." 
+            value={search} 
+            onChange={handleSearch} 
+            id="search-input"
+          />
+        </div>
+        <div className="price-filter">
+          <h2>Price filter</h2>
+          <label>Min(in dollars)</label>
+          <input 
+            type="number" 
+            placeholder="Min price" 
+            value={minPrice} 
+            onChange={handleMinPriceChange} 
+          />
+          <label>Max(in dollars)</label>
+          <input 
+            type="number" 
+            placeholder="Max price" 
+            value={maxPrice} 
+            onChange={handleMaxPriceChange} 
+          />
         </div>
         <div>
           {type === 'cars'

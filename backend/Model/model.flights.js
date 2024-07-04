@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 let schema = new mongoose.Schema({
-    "flightId":String,
+    "id":String,
     "origin":String,
     "destination":String, 
     "depatureTime":String,
