@@ -25,16 +25,14 @@ function LoginComponent () {
     //e.preventDefault();
     let data = {username, password};
     try{
-      const response = await axios.post ('http://localhost:4000/api/login', data)
-      console.log(response.token);
-      localStorage.setItem ('token', response.token);
+      const response = await axios.post ('http://localhost:4000/api/login', data);
+      localStorage.setItem ('token', response.data.token);
       localStorage.setItem ('user', username);
       navigate ('/home');
       window.location.reload();
     }catch(error){
       setError('User authentication failed');
       console.log("login failed",error);
-      
     }
   }
   

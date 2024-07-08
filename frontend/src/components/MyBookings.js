@@ -25,7 +25,7 @@ function MyBookings() {
   const [error, setError] = useState(null);
   const [filterType, setFilterType] = useState('car');
 
-  const { user, handleLogout } = useMyContext();
+  const { token, user, handleLogout } = useMyContext();
 
   const clickHome = () => {
     navigate('/home');
@@ -46,17 +46,22 @@ function MyBookings() {
       try {
         const response = await axios.get(
           `http://localhost:4000/api/bookings/${user}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
         setBookings(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        setError('Failed to fetch bookings.'); 
+        setError('Failed to fetch bookings.');
         console.error('There was an error fetching the bookings:', error);
       }
     };
-    if(user) fetchBookings();
-  },[user]);
+    if (user) fetchBookings();
+  }, [user]);
 
   useEffect(() => {
     if (filterType === 'all') {
@@ -73,10 +78,10 @@ function MyBookings() {
     setFilterType(type);
   };
 
-  const handleCancel = async(id)=>{
-    let res = axios.delete(`http://localhost:4000/api/bookings/${id}`);
+  const handleCancel = async (id) => {
+    let res = await axios.delete(`http://localhost:4000/api/bookings/${id}`);
     window.location.reload();
-  }
+  };
 
   if (loading) return <Spinner animation='border' />;
   if (error) return <Alert variant='danger'>{error}</Alert>;
@@ -146,7 +151,9 @@ function MyBookings() {
                       ))}
                     </Card.Text>
                   </Card.Body>
-                  <Button onClick={()=>handleCancel(booking.bookingId)}>Cancel</Button>
+                  <Button onClick={() => handleCancel(booking.bookingId)}>
+                    Cancel
+                  </Button>
                 </Card>
               </Col>
             ))}

@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import user from './Model/model.users.js';
 import mongoose from "mongoose";
+import signer from './auth/sign.js';
 dotenv.config();
 
 mongoose.connect("mongodb+srv://aggvinayganta10:It3RHJS2IKD4Lte3@cluster0.7ou0dbw.mongodb.net/").then(()=>{console.log('Connected....')}).catch(()=>{console.log('error')});
@@ -18,17 +19,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const secret = "secret";
+const secret = process.env.secret;
 
 // middlewares
 app.use("/api/admin",admins);
 app.use("/api/customers",users);
 app.use("/api/bookings",bookings);
 app.use('/api',listings);
-
-async function signer(data){
-    return jwt.sign(data,secret,{"expiresIn":"1h"});
-}
 
 app.get("/",(req,res)=>{
     res.send("Welcome to travelling booking app");
@@ -52,12 +49,13 @@ app.post('/api/login',async (req,res)=>{
     }
     else{
         let token = await signer(body);
-        res.send(token);
+        console.log(token);
+        res.json({ token: token });
     }
 });
 
-app.listen(4000,()=>{
-    console.log("listening");
+app.listen(process.env.port,()=>{
+    console.log("listening at " + process.env.port);
 });
 
 // export default validate;

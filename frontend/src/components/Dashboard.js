@@ -20,18 +20,30 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/api/cars')
+      .get('http://localhost:4000/api/cars',{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
       .then((res) => setCars(res.data))
-      .catch((error) => console.error('Error fetching cars:', error));
+      .catch((error) => toast.error('Please login'));
     axios
-      .get('http://localhost:4000/api/hotels')
+      .get('http://localhost:4000/api/hotels',{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
       .then((res) => setHotels(res.data))
-      .catch((error) => console.error('Error fetching hotels:', error));
+      .catch((error) => toast.error('Please login'));
 
     axios
-      .get('http://localhost:4000/api/flights')
+      .get('http://localhost:4000/api/flights',{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
       .then((res) => setFlights(res.data))
-      .catch((error) => console.error('Error fetching flights:', error));
+      .catch((error) => toast.error('Please login'));
   }, []);
 
   const clickHome = () => {

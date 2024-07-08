@@ -1,6 +1,7 @@
 import express from 'express';
 import booking from '../Model/model.bookings.js';
 import nodemailer from 'nodemailer';
+import validate from '../auth/verify.js';
 
 const bookings = express.Router();
 
