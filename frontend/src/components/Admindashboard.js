@@ -33,7 +33,7 @@ function AdminComponent() {
       const response = await axios.post(`http://localhost:4000/api/admin/${type}s`, details);
       setDetails({});
       if (response.status === 200) {
-        toast.success('Booked successfully!');
+        toast.success('Added successfully!');
       } else {
         toast.error('Failed to book.');
       }

@@ -9,6 +9,7 @@ function LoginComponent () {
   const navigate = useNavigate ();
   const [username, setUsername] = useState ('');
   const [password, setPassword] = useState ('');
+  const [email,setEmail] = useState('');
   const {token, setToken} = useMyContext ();
   const [error, setError] = useState(null);
 
@@ -28,7 +29,12 @@ function LoginComponent () {
       const response = await axios.post ('http://localhost:4000/api/login', data);
       localStorage.setItem ('token', response.data.token);
       localStorage.setItem ('user', username);
-      navigate ('/home');
+      if(username=='admin' && password=='admin123'){
+        navigate('/admin');
+      }
+      else {
+        navigate ('/home');
+      }
       window.location.reload();
     }catch(error){
       setError('User authentication failed');

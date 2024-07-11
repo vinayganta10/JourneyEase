@@ -83,7 +83,10 @@ function Dashboard() {
   };
 
   async function book(items) {
-    let data = { userId: user, bookingId: Date.now(), items };
+    let res = await axios.get(`http://localhost:4000/api/customers/${user}`);
+    let email = res.data.email;
+    console.log(res.data);
+    let data = { userId: user, bookingId: Date.now(), items,email:email };
     try {
       let response = await axios.post(
         'http://localhost:4000/api/bookings/',

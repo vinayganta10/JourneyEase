@@ -9,7 +9,7 @@ users.get('/:id',async(req,res)=>{
     const data = await(user.findOne({username:id}));
     const userData = {
         "username":data.username,
-        "enmail":data.email
+        "email":data.email
     }
     res.send(userData);
 });

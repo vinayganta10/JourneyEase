@@ -17,7 +17,7 @@ bookings.post("/",async(req,res)=>{
     // const bToken = req.header.Authorization;
     // const token = bToken[1];
     // const flag = verify(token);
-    const { userId, bookingId, items } = req.body;
+    const { userId, bookingId, items,email } = req.body;
     let newBooking = new booking(req.body);
     const bookingDetails = {
         userId,
@@ -28,7 +28,7 @@ bookings.post("/",async(req,res)=>{
     
     const mailOptions = {
         from: 'aggvinayganta10@gmail.com',
-        to: 'vikasmamidipally23@gmail.com',
+        to: email,
         subject: 'Your Booking Confirmation',
         text: `Thank you for your booking.Here are the details:\n\n${JSON.stringify(bookingDetails, null, 2)}`,
         attachments: [
