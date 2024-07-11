@@ -54,6 +54,11 @@ function MyBookings() {
         );
         setBookings(response.data);
         setLoading(false);
+        console.log(bookings);
+        if(bookings.length==0){
+          setLoading(false);
+          setError('No bookings.');
+        }
       } catch (error) {
         setLoading(false);
         setError('Failed to fetch bookings.');

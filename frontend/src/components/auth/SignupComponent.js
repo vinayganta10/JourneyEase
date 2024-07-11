@@ -5,42 +5,60 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {useMyContext} from '../authProvider';
 
-function SignupComponent () {
-  const navigateSignup = useNavigate ();
-  const [username, setUsername] = useState ('');
-  const [password, setPassword] = useState ('');
-  const [email, setEmail] = useState ('');
-  const {token, setToken, user, setUser} = useMyContext ();
-  function handleUserName (e) {
-    setUsername (e.target.value);
+function SignupComponent() {
+  const navigateSignup = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState({});
+  const { token, setToken, user, setUser } = useMyContext();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, one letter and one number
+
+  function handleUserName(e) {
+    setUsername(e.target.value);
   }
 
-  function handlePassword (e) {
-    setPassword (e.target.value);
+  function handlePassword(e) {
+    setPassword(e.target.value);
   }
 
-  function handleEmail (e) {
-    setEmail (e.target.value);
+  function handleEmail(e) {
+    setEmail(e.target.value);
   }
-  async function handleSignUp (e) {
+
+  function validate() {
+    let tempErrors = {};
+    tempErrors.email = emailRegex.test(email) ? '' : 'Email is not valid';
+    tempErrors.password = passwordRegex.test(password) ? '' : 'Password must be at least 8 characters long and contain both letters and numbers';
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every(x => x === '');
+  }
+
+  async function handleSignUp(e) {
+    e.preventDefault();
+    if (!validate()) return;
+
     let data = {
       username,
       password,
       email,
     };
-    const response = await axios.post (
-      'http://localhost:4000/api/signup',
-      data
-    );
-    console.log (response.data);
-    localStorage.setItem ('token', response.data);
-    localStorage.setItem ('user', username);
-    navigateSignup ('/home');
-    window.location.reload ();
+
+    try {
+      const response = await axios.post('http://localhost:4000/api/signup', data);
+      console.log(response.data);
+      navigateSignup('/login');
+    } catch (error) {
+      console.error('There was an error!', error);
+    }
   }
+
   const clickHome = () => {
     navigateSignup('/home');
   };
+
   return (
     <div className="App">
       <div>
@@ -63,23 +81,25 @@ function SignupComponent () {
           </div>
           <div className="form-control">
             <input
-              type="text"
-              id="password"
-              value={password}
-              onChange={handlePassword}
-              required
-            />
-            <label>Email</label>
-          </div>
-          <div className="form-control">
-            <input
-              type="password"
+              type="email"
               id="email"
               value={email}
               onChange={handleEmail}
               required
             />
+            <label>Email</label>
+            {errors.email && <span className="error">{errors.email}</span>}
+          </div>
+          <div className="form-control">
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePassword}
+              required
+            />
             <label>Password</label>
+            {errors.password && <span className="error">{errors.password}</span>}
           </div>
           <button onClick={handleSignUp} type="button">Signup</button>
           <div className="form-help">

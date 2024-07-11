@@ -126,3 +126,7 @@ form .form-help :where(label, a) {
         margin: 25px 0 40px;
     }
 }
+
+.error{
+    color:white;
+}
